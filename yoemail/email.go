@@ -1,54 +1,42 @@
 package yoemail
 
 import (
-	"context"
 	"errors"
 	"fmt"
 	"github.com/juandunbar/yobirthday/yoconfig"
-	"github.com/mailgun/mailgun-go/v4"
-	"time"
 )
 
 var (
 	config *yoconfig.Config
-	ErrConfigNotSet = errors.New("nil config pointer, call SetConfig() to initialize config")
+	ErrConfigNotSet = errors.New("config not set, call email.Config() to set")
 )
 
-type EmailClient struct {
-	mg *mailgun.MailgunImpl
+type EmailClient interface {
+	Init(config *yoconfig.Config) EmailClient
+	SendEmail() error
 }
 
-func NewClient() (*EmailClient, error) {
+// Custom error type used by NewClient function
+type ErrClientNotFound struct{
+	Client string
+}
+func (e *ErrClientNotFound) Error() string {
+	return fmt.Sprintf("email client not implemented: %v", e.Client)
+}
+
+func NewClient() (EmailClient, error) {
 	if config == nil {
 		return nil, ErrConfigNotSet
 	}
-	// Get apikey from our env variables
-	apikey := config.GetString("MAILGUN_APIKEY")
-	// Get domain from our config.json file
-	domain := config.GetString("mailgun.domain")
-	mg := mailgun.NewMailgun(domain, apikey)
 
-	return &EmailClient{mg:mg}, nil
-}
-
-func (ec *EmailClient) SendEmail() error {
-	sender := config.GetString("mailgun.sender")
-	subject := "test subject"
-	body := "happy birthday"
-	recipient := config.GetString("mailgun.recipient")
-
-	message := ec.mg.NewMessage(sender, subject, body, recipient)
-
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second*10)
-	defer cancel()
-	// Send the message with a 10 second timeout
-	resp, id, err := ec.mg.Send(ctx, message)
-	if err != nil {
-		return err
+	driver := config.GetString("email_driver")
+	switch driver {
+	case "mailgun":
+		client := &MailGun{}
+		return client.Init(config), nil
+	default:
+		return nil, &ErrClientNotFound{driver}
 	}
-
-	fmt.Printf("ID: %s Resp: %s\n", id, resp)
-	return nil
 }
 
 func SetConfig(c *yoconfig.Config) {

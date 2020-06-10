@@ -1,0 +1,12 @@
+{
+  "database": {
+    "path": "<db_path>"
+  },
+  "email_driver": "mailgun",
+  "MAILGUN_APIKEY": "MAILGUN_APIKEY",
+  "mailgun": {
+    "domain": "<domain>",
+    "sender": "<sender>",
+    "recipient": "<recipient>"
+  }
+}
