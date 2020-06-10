@@ -12,16 +12,16 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	// Share our config state with other packages
+	// Share our config state with our email package
 	yoemail.SetConfig(config)
 
 	// Create a new email client
-	email, err := yoemail.NewClient()
+	emailClient, err := yoemail.NewClient()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	if err = email.SendEmail(); err != nil {
+	if err = emailClient.SendEmails(); err != nil {
 		log.Fatal(err)
 	}
 }
