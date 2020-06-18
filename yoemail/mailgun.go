@@ -20,7 +20,7 @@ func (mg *MailGun) Init() error {
 	domain := config.GetString("mailgun.domain")
 	mg.client = mailgun.NewMailgun(domain, apikey)
 	// Get our data service object
-	ds, err := yodata.NewService(config)
+	ds, err := yodata.NewService()
 	if err != nil {
 		return err
 	}

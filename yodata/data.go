@@ -11,7 +11,7 @@ import (
 var config *yoconfig.Config
 
 type DataService struct {
-	db *sql.DB
+	Db *sql.DB
 }
 
 type Email struct {
@@ -25,9 +25,7 @@ type Email struct {
 	SenderNickname string
 }
 
-func NewService(vconfig *yoconfig.Config) (*DataService, error) {
-	// Set out config state
-	config = vconfig
+func NewService() (*DataService, error) {
 	// Open a database connection using our config dsn
 	dsn := config.GetString("database.dsn")
 	db, err := sql.Open("sqlite3", dsn)
@@ -39,7 +37,7 @@ func NewService(vconfig *yoconfig.Config) (*DataService, error) {
 		return nil, err
 	}
 	// Create the DataService object and return
-	ds := &DataService{db:db}
+	ds := &DataService{Db: db}
 	return ds, nil
 }
 
@@ -47,7 +45,7 @@ func NewService(vconfig *yoconfig.Config) (*DataService, error) {
 func (ds *DataService) GetEmails() ([]Email, error) {
 	// Get any matching birthdays for our current date
 	query, sqlParam := ds.GetEmailQuery()
-	rows, err := ds.db.Query(query, sqlParam)
+	rows, err := ds.Db.Query(query, sqlParam)
 	if err != nil {
 		return nil, err
 	}
@@ -103,4 +101,8 @@ func fixMonthDay(month time.Month, day int) (string, string) {
 		strDay = fmt.Sprintf("%v", day)
 	}
 	return strMonth, strDay
+}
+
+func SetConfig(c *yoconfig.Config) {
+	config = c
 }

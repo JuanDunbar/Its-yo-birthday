@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/juandunbar/yobirthday/yoconfig"
+	"github.com/juandunbar/yobirthday/yodata"
 	"github.com/juandunbar/yobirthday/yoemail"
 	"log"
 )
@@ -12,8 +13,9 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	// Share our config state with our email package
+	// Share our config state with our email and data package
 	yoemail.SetConfig(config)
+	yodata.SetConfig(config)
 
 	// Create a new email client
 	emailClient, err := yoemail.NewClient()

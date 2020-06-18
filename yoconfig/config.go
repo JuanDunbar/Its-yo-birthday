@@ -45,3 +45,7 @@ func (c *Config) Get(key string) string {
 	value := c.Viper.Get(key)
 	return value.(string)
 }
+
+func (c *Config) Set(key string, value interface{}) {
+	c.Viper.Set(key, value)
+}
