@@ -49,7 +49,7 @@ func NewClient() (EmailClient, error) {
 
 // This function will grab a canned response email body using the yodata.Email.Type
 func GetEmailBody(email *yodata.Email) (string, error) {
-	response, err := yotemplate.NewResponse()
+	response, err := yotemplate.NewResponse("")
 	if err != nil {
 		return "", err
 	}
