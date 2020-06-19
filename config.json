@@ -1,0 +1,13 @@
+{
+  "database": {
+    "dsn": "<dns>"
+  },
+  "email_driver": "mailgun",
+  "sender_nickname": "<sender_nickname>",
+  "MAILGUN_APIKEY": "MAILGUN_APIKEY",
+  "mailgun": {
+    "domain": "<domain>",
+    "sender": "<sender>",
+    "subject": "<subject>"
+  }
+}

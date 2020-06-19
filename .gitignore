@@ -1,0 +1,6 @@
+#some defaults
+.idea
+.DS_STORE
+
+#do not include any local db files
+*.db

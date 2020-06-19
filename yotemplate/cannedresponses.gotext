@@ -1,0 +1,20 @@
+{{define "default"}}
+Hey {{ .Nickname }},
+Hope this email finds you well. Just wanted to say Happy Birthday!
+
+- {{.SenderNickname}}
+{{end}}
+
+{{define "family"}}
+Hey {{ .Nickname }},
+Wow another year in the books.  Ill have to come visit soon.
+
+Love you, {{.SenderNickname}}
+{{end}}
+
+{{define "friend"}}
+Yo {{ .Nickname }},
+Whats up?  Happy Birthday!! Let's grab a beer soon, ttyl.
+
+- {{.SenderNickname}}
+{{end}}
